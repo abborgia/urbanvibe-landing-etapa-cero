@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>UrbanVibe — La Ciudad Vuelve a Latir</title>
+  <!-- Tailwind Play CDN (JIT) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind config (opcional para futuras extensiones)
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'],
+            figtree: ['Figtree', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Carga de fuentes (Inter / Figtree) -->
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@700;800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* Safe areas para iOS/Android */
+    :root {
+      --safe-top: env(safe-area-inset-top);
+      --safe-bottom: env(safe-area-inset-bottom);
+      --safe-left: env(safe-area-inset-left);
+      --safe-right: env(safe-area-inset-right);
+    }
+    /* Animaciones */
+    @keyframes pulseLogo {
+      0%, 100% { opacity: .6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(2px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .pulse { animation: pulseLogo 1s ease-in-out infinite; } /* ~60bpm ≈ 1s ciclo */
+    .fade-400 { animation: fadeIn 1.2s ease forwards; animation-delay: .4s; opacity: 0; }
+    .fade-800 { animation: fadeIn .9s ease forwards;  animation-delay: .8s; opacity: 0; }
+    .fade-1200 { animation: fadeIn .8s ease forwards; animation-delay: 1.2s; opacity: 0; }
+    /* Evita scroll accidental */
+    html, body { height: 100%; overflow: hidden; }
+  </style>
+</head>
+<body class="bg-[#1B1D37] text-[#F2F1F0] relative">
+  <!-- Contenedor de vista única -->
+  <div class="relative h-[100svh] w-screen overflow-hidden" style="padding-bottom: var(--safe-bottom); padding-top: var(--safe-top);">
+
+    <!-- Video de fondo -->
+    <video autoplay muted loop playsinline
+           class="absolute inset-0 w-full h-full object-cover"
+           poster="./assets/fallback.jpg">
+      <source src="./assets/bg-loop.mp4" type="video/mp4" />
+      <!-- Si no hay video disponible, el poster queda como fondo -->
+    </video>
+
+    <!-- Overlay oscuro -->
+    <div class="absolute inset-0 bg-[#1B1D37]/80"></div>
+
+    <!-- Contenido centrado -->
+    <main class="relative z-10 h-full w-full flex flex-col items-center justify-center text-center px-6">
+      <!-- Isotipo pulsante -->
+      <img src="./assets/isotipo.svg" alt="UrbanVibe isotipo" class="w-10 h-10 mb-6 opacity-80 pulse" />
+
+      <!-- Hero Copy -->
+      <h1 class="font-figtree font-extrabold tracking-tight fade-400 text-3xl sm:text-4xl md:text-5xl">
+        La Ciudad Vuelve a Latir.
+      </h1>
+
+      <!-- Tagline -->
+      <p class="font-inter mt-3 text-base md:text-lg text-[#D9D9DB] fade-800">
+        Estamos trazando un nuevo mapa de sensaciones.
+      </p>
+
+      <!-- Formulario de captura -->
+      <form id="lead-form" class="w-full max-w-xs mt-8 fade-1200">
+        <label class="sr-only" for="email">Tu correo electrónico</label>
+        <input id="email" name="email" type="email" required
+               placeholder="Tu correo electrónico"
+               aria-label="Ingresa tu correo electrónico para unirte al movimiento"
+               class="w-full rounded-md bg-[#2A2C47] text-[#F2F1F0] placeholder-[#9A9BA5]
+                      px-4 py-3 mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#FB4E34]" />
+        <button type="submit"
+                class="w-full bg-[#FB4E34] text-[#1B1D37] font-inter font-bold py-3 rounded-md
+                       active:scale-[0.98] transition hover:brightness-110">
+          Súmate al movimiento
+        </button>
+
+        <!-- Error -->
+        <p id="error-message" class="hidden mt-2 text-xs text-[#FB4E34]">Por favor, ingresa un correo válido.</p>
+      </form>
+
+      <!-- Mensaje de éxito -->
+      <div id="success-message" class="hidden mt-6 text-sm text-[#D9D9DB]">
+        Estás dentro. Prepárate para sentir el pulso.<br>
+        <span class="font-semibold text-[#F2F1F0]">#LaCiudadVuelveALatir</span>
+      </div>
+
+      <!-- Footer silencioso -->
+      <footer class="absolute bottom-4 inset-x-0 flex items-center justify-center space-x-5 opacity-70">
+        <a href="https://instagram.com/somosurbanvibe" target="_blank" aria-label="Instagram" rel="noopener">
+          <img src="./assets/icon-instagram.svg" alt="Instagram" class="w-5 h-5">
+        </a>
+        <a href="https://tiktok.com/@urbanvibecl" target="_blank" aria-label="TikTok" rel="noopener">
+          <img src="./assets/icon-tiktok.svg" alt="TikTok" class="w-5 h-5">
+        </a>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Script de envío (Formspree ejemplo) -->
+  <script>
+    const form = document.getElementById('lead-form');
+    const emailInput = document.getElementById('email');
+    const success = document.getElementById('success-message');
+    const errorMsg = document.getElementById('error-message');
+
+    const FORMSPREE_ENDPOINT = "https://formspree.io/f/xrbyjjrq"; // TODO: reemplazar por el ID real
+
+    function isValidEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorMsg.classList.add('hidden');
+
+      if (!isValidEmail(emailInput.value)) {
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const res = await fetch(FORMSPREE_ENDPOINT, {
+          method: "POST",
+          headers: { "Accept": "application/json", "Content-Type": "application/json" },
+          body: JSON.stringify({ email: emailInput.value })
+        });
+
+        // Mostrar éxito local incluso si el endpoint está en mock
+        form.classList.add('hidden');
+        success.classList.remove('hidden');
+
+      } catch (err) {
+        // En caso de error de red, igualmente mostramos éxito para no romper la experiencia en Etapa Cero
+        form.classList.add('hidden');
+        success.classList.remove('hidden');
+      }
+    });
+  </script>
+
+  <!-- GA4 / Meta Pixel (placeholders comentados) -->
+  <!--
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXX');
+  </script>
+
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'XXXXXXXXXX');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=XXXXXXXXXX&ev=PageView&noscript=1"
+  /></noscript>
+  -->
+</body>
+</html>
