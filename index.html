@@ -45,6 +45,24 @@
     /* Evita scroll accidental */
     html, body { height: 100%; overflow: hidden; }
   </style>
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2152707011921240');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=2152707011921240&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel Code -->
 </head>
 <body class="bg-[#1B1D37] text-[#F2F1F0] relative">
   <!-- Contenedor de vista única -->
@@ -103,10 +121,13 @@
       <!-- Footer silencioso -->
       <footer class="absolute bottom-4 inset-x-0 flex items-center justify-center space-x-5 opacity-70">
         <a href="https://instagram.com/somosurbanvibe" target="_blank" aria-label="Instagram" rel="noopener">
-          <img src="./assets/icon-instagram.svg" alt="Instagram" class="w-5 h-5">
+          <img src="./assets/instagram-brands-solid-full.svg" alt="Instagram" class="w-5 h-5">
         </a>
         <a href="https://tiktok.com/@urbanvibecl" target="_blank" aria-label="TikTok" rel="noopener">
-          <img src="./assets/icon-tiktok.svg" alt="TikTok" class="w-5 h-5">
+          <img src="./assets/tiktok-brands-solid-full.svg" alt="TikTok" class="w-5 h-5">
+        </a>
+        <a href="https://tiktok.com/@urbanvibecl" target="_blank" aria-label="TikTok" rel="noopener">
+          <img src="./assets/facebook-f-brands-solid-full.svg" alt="TikTok" class="w-5 h-5">
         </a>
       </footer>
     </main>
